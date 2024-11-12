@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BVRIT LIBRARY (Registration page)</title>
+    <link rel="stylesheet" href="stylesrp.css">
+</head>
+<body>
+    <header>
+        <img class="bvrit-logo" src="images/newlogo.bmp" alt="BVRIT Logo">
+        <h1>BVRIT LIBRARY (Registration)</h1>
+        <img class="founder-image" src="images/founder.png" alt="Founder Logo">
+    </header>
+    <main>
+        <div class="container">
+            <form id="registrationForm" class="registration-form">
+                <div class="form-group">
+                    <label for="fullname">Full Name:</label>
+                    <input type="text" id="fullname" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phonenumber">Phone Number:</label>
+                    <input type="text" id="phonenumber" placeholder="Enter your phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" required>
+                        <option value="STUDENT">Student</option>
+                        <option value="FACULTY">Faculty</option>
+                    </select>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            <!-- <div class="user-list">
+                <h2>Registered Users:</h2>
+                <ul id="userList"></ul>
+            </div> -->
+            <div class="login-section">
+                <!-- <button onclick="location.href='login.html';">Login</button> -->
+                <p><a href="login.html">Back to login</a></p>
+            </div>
+
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 BVRIT Library</p>
+    </footer>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const fullname = document.getElementById('fullname').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const phonenumber = document.getElementById('phonenumber').value;
+            const role = document.getElementById('role').value;
+
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ fullname, username, password, email, phonenumber, role })
+            });
+
+            if (response.ok) {
+                alert('User registered!');
+                fetchUsers();
+            } else {
+                alert('Failed to register user');
+            }
+        });
+
+        async function fetchUsers() {
+            const response = await fetch('/users');
+            const users = await response.json();
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = `${user.fullname} (${user.username}): ${user.email}, ${user.phonenumber}, Role: ${user.role}` ;
+                userList.appendChild(li);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchUsers);
+    </script>
+</body>
+</html>

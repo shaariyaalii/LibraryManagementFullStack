@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BVRIT Library - Admin Services</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userType = urlParams.get('role');
+            console.log(`User type: ${userType}`);
+            
+            const serviceSelector = document.getElementById('service-selector');
+            const serviceDetails = document.getElementById('service-details');
+
+            const adminServices = ['Books Management'];
+
+            const servicesMap = {
+                admin: adminServices
+            };
+
+            if (userType && userType.includes('admin')) {
+                const serviceDropdown = adminServices.map(service => 
+                    `<option value="${service}">${service}</option>`
+                ).join('');
+                
+                serviceSelector.innerHTML = `<option value="" disabled selected>Select a service</option>` + serviceDropdown;
+                serviceDetails.innerHTML = '';
+
+                serviceSelector.addEventListener('change', function() {
+                    const selectedService = serviceSelector.value;
+                    console.log(`Selected service: ${selectedService}`);
+                    
+                    if (selectedService === 'Books Management') {
+                        // Redirect to admin books management page
+                        window.location.href = 'a.ececat.html';
+                    }
+                });
+
+            } else {
+                serviceSelector.innerHTML = '<option value="" disabled selected>No services available</option>';
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>BVRIT LIBRARY - Admin Services</h1>
+    </header>
+    <main>
+        <h2>Admin Services</h2>
+        <section>
+            <label for="service-selector">Select a service:</label>
+            <select id="service-selector">
+                <option value="" disabled selected>Select a service</option>
+                <!-- Options populated dynamically based on user type (admin) -->
+            </select>
+            <div id="service-details"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 BVRIT Library</p>
+    </footer>
+</body>
+</html>

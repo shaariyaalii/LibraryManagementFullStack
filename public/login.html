@@ -1,0 +1,76 @@
+<!-- public/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BVRIT LIBRARY(Login)</title>
+    <link rel="stylesheet" href="stylesrp.css">
+</head>
+<body>
+    <header>
+        <img class="bvrit-logo" src="images/newlogo.bmp" alt="BVRIT Logo">
+        <h1>BVRIT LIBRARY</h1>
+        <h2>Login Form</h2>
+        <img class="founder-image" src="images/founder.png" alt="Founder Logo">
+    </header>
+    <main>
+        <div class="container">
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" required>
+                        <option value="admin">ADMIN</option>
+                        <option value="student">STUDENT</option>
+                        <option value="faculty">FACULTY</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter your username" required >
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 BVRIT Library</p>
+    </footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+    
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password, role })
+            });
+    
+            if (response.ok) {
+                const responseData = await response.json();
+                if (responseData.isAdmin) {
+                    // Redirect to admin dashboard if isAdmin is true
+                    window.location.href = 'Department/admindepartments.html';
+                } else {
+                    // Redirect to user dashboard for student or faculty
+                    window.location.href = 'Department/stud&facdepartments.html';
+                }
+            } else {
+                // Handle incorrect credentials
+                alert('Failed to login. Please check your credentials.');
+            }
+        });
+    </script>
+    
+</body>
+</html>

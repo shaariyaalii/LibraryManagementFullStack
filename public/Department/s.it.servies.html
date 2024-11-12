@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BVRIT Library - Services</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userType = urlParams.get('role');
+            console.log(`User type: ${userType}`);
+            
+            const serviceSelector = document.getElementById('service-selector');
+            const serviceDetails = document.getElementById('service-details');
+
+            const studentServices = ['Check Due Dates and Fines', 'View Available Books'];
+            const facultyServices = ['Check Due Dates and Fines', 'View Available Books'];
+
+            const servicesMap = {
+                student: studentServices,
+                faculty: facultyServices
+            };
+
+            if (userType && userType.includes('student')) {
+                const serviceDropdown = studentServices.map(service => 
+                    `<option value="${service}">${service}</option>`
+                ).join('');
+                
+                serviceSelector.innerHTML = `<option value="" disabled selected>Select a service</option>` + serviceDropdown;
+                serviceDetails.innerHTML = '';
+
+                serviceSelector.addEventListener('change', function() {
+                    const selectedService = serviceSelector.value;
+                    console.log(`Selected service: ${selectedService}`);
+                    
+                    if (selectedService === 'Check Due Dates and Fines') {
+                        serviceDetails.innerHTML = `
+                            <h4>Due Dates and Fines</h4>
+                            <p>Your current fines: ₹1500</p>
+                            <button id="pay-fine">Pay Fine</button>
+                            <p>Books due soon:</p>
+                            <ul>
+                                <li>Book 1 - Due: 2024-06-01</li>
+                                <li>Book 2 - Due: 2024-06-15</li>
+                            </ul>
+                        `;
+
+                        document.getElementById('pay-fine').addEventListener('click', function() {
+                            window.location.href = 'payment.html';
+                        });
+                    } else if (selectedService === 'View Available Books') {
+                        // Redirect to CSE catalogue page
+                        window.location.href = 's.itcat.html';
+                    }
+                });
+
+            } else if (userType && userType.includes('faculty')) {
+                const serviceDropdown = facultyServices.map(service => 
+                    `<option value="${service}">${service}</option>`
+                ).join('');
+                
+                serviceSelector.innerHTML = `<option value="" disabled selected>Select a service</option>` + serviceDropdown;
+                serviceDetails.innerHTML = '';
+
+                serviceSelector.addEventListener('change', function() {
+                    const selectedService = serviceSelector.value;
+                    console.log(`Selected service: ${selectedService}`);
+                    
+                    if (selectedService === 'Check Due Dates and Fines') {
+                        serviceDetails.innerHTML = `
+                            <h4>Due Dates and Fines</h4>
+                            <p>Your current fines: ₹1500</p>
+                            <button id="pay-fine">Pay Fine</button>
+                            <p>Books due soon:</p>
+                            <ul>
+                                <li>Book 1 - Due: 2024-06-01</li>
+                                <li>Book 2 - Due: 2024-06-15</li>
+                            </ul>
+                        `;
+
+                        document.getElementById('pay-fine').addEventListener('click', function() {
+                            window.location.href = 'payment.html';
+                        });
+                    } else if (selectedService === 'View Available Books') {
+                        // Redirect to CSE catalogue page
+                        window.location.href = 's.itcat.html';
+                    }
+                });
+
+            } else {
+                serviceSelector.innerHTML = '<option value="" disabled selected>No services available</option>';
+            }
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>BVRIT LIBRARY - Students and Faculty-Services</h1>
+    </header>
+    <main>
+        <h2>Services</h2>
+        <section>
+            <label for="service-selector">Select a service:</label>
+            <select id="service-selector">
+                <option value="" disabled selected>Select a service</option>
+            </select>
+            <div id="service-details"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 BVRIT Library</p>
+    </footer>
+</body>
+</html>

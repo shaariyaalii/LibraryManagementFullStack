@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BVRIT Hyderabad Library System</title>
+  <link rel="stylesheet" href="stylesrp.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #eee5e5;
+    }
+   /*.container {
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.2); 
+        
+    }*/
+    .container {
+    width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Adjust the blur radius and opacity */
+}
+
+    header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        text-align: center;
+    }
+    nav ul li {
+        display: inline;
+        margin-right: 10px;
+    }
+    nav ul li a {
+        text-decoration: none;
+        color: #333;
+        padding: 8px 16px;
+        border-radius: 4px;
+        background-color: #f0f0f0;
+        transition: background-color 0.3s;
+    }
+    nav ul li a:hover {
+        background-color: #ddd;
+    }
+    section {
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+    footer {
+        text-align: center;
+        font-size: larger;
+        margin-top: 20px;
+        color: #0dd3ff;
+    }
+   .bvrit-logo {
+        position: absolute;
+        top: 5px; /* Adjust top positioning as needed */
+        left: 10px; /* Adjust left positioning as needed */
+        width: 100px; /* Adjust width as needed */
+        height: auto; /* Maintain aspect ratio */
+    }
+   .founder-image {
+        position: fixed;
+        top: 2px; /* Adjust as needed */
+        right: 10px; /* Adjust as needed */
+        width: 100px; /* Adjust as needed */
+        height: auto; /* Maintain aspect ratio */
+        z-index: 9999; /* Ensure the image appears above other elements */
+    }
+    /* Add background image to login section */
+   .login-background {
+        background-image: url('library.jpg'); /* Replace with your desired image */
+        background-size: cover;
+        background-position: center;
+        height: 300px; /* Adjust height as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; /* Ensures the image and text are vertically stacked */
+    }
+</style>
+  
+</head>
+<body>
+  <div class="container">
+    <header>
+        
+        <h1>WELCOME TO BVRITH LIBRARY</h1>
+    </header>
+    <main>
+        <section class="login-background">
+            <img src="images/homepagepic.png" alt="Library System Design" style="max-width: 300px; height: 420px; margin-bottom: 1px;">
+            <nav>
+                <ul>
+                  <li><p>Click here to log in</p><a href="login.html">Login</a></li>
+                  <li><p>New user? Register here and become part of the family</p><a href="register.html">Register</a></li>
+                </ul>
+            </nav>
+        </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 BVRIT Hyderabad Library System. All rights reserved.</p>
+    </footer>
+  </div>
+</body>
+</html>

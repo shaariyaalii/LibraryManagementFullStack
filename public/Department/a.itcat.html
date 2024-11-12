@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Catalogue A</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('booksimage.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .catalogue {
+            margin-left: auto;
+            margin-right: auto;
+            width: 600px;
+            background-color: #d25e15;
+            opacity: 0.9;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .catalogue th, .catalogue td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .catalogue th {
+            background-color: #0e447a;
+            color: white;
+        }
+        .catalogue td {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            background-color: #c36257;
+            color: #f1f4f7;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn {
+            background-color: #e65d1e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #c54e1c;
+        }
+        .btn:active {
+            background-color: #a74519;
+        }
+        .btn.add {
+            background-color: #32CD32;
+        }
+        .btn.add:hover {
+            background-color: #228B22;
+        }
+        .btn.add:active {
+            background-color: #006400;
+        }
+        .btn.delete {
+            background-color: #FF6347;
+        }
+        .btn.delete:hover {
+            background-color: #CD5C5C;
+        }
+        .btn.delete:active {
+            background-color: #8B0000;
+        }
+        .btnn {
+            text-align: center;
+        }
+        /* Add Book Form Styles */
+        #addBookForm {
+            display: none;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            margin: 20px auto;
+        }
+        #addBookForm input, #addBookForm button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+        }
+        #addBookForm button {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h1 style="text-align: center;">
+                    <span class="highlight">AVAILABLE BOOKS</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <h1 style="text-align: center;">
+        <span class="highlight">INFORMATION TECHNOLOGY</span>
+    </h1>
+    
+    <br>
+    <br>
+    <table class="catalogue">
+        <thead>
+            <tr>
+                <th>Book Preview</th>
+                <th>Book Details</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="catalogueBody">
+            <!-- Table rows will be dynamically added -->
+        </tbody>
+    </table>
+
+    <div class="btnn">
+        <button class="btn add" onclick="showAddBookForm()">Add Book</button>
+    </div>
+
+    <!-- Add Book Form -->
+    <div id="addBookForm">
+        <h2>Add New Book</h2>
+        <form id="newBookForm">
+            <label for="bookPreview">Book Preview URL:</label>
+            <input type="text" id="bookPreview" name="bookPreview" required>
+            <br>
+            <label for="bookDetails">Book Details:</label>
+            <input type="text" id="bookDetails" name="bookDetails" required>
+            <br>
+            <label for="bookPrice">Price:</label>
+            <input type="number" id="bookPrice" name="bookPrice" required>
+            <br>
+            <button type="submit" class="btn add">Submit</button>
+            <button type="button" class="btn" onclick="hideAddBookForm()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to show add book form
+        function showAddBookForm() {
+            document.getElementById('addBookForm').style.display = 'block';
+        }
+
+        // Function to hide add book form
+        function hideAddBookForm() {
+            document.getElementById('addBookForm').style.display = 'none';
+        }
+
+        // Function to add a new book
+        function addBook(bookPreview, bookDetails, bookPrice) {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><img src="${bookPreview}" width="80" height="70"></td>
+                <td>${bookDetails}</td>
+                <td>$${bookPrice}</td>
+                <td><button class="btn delete" onclick="deleteBook(this)">Delete</button></td>
+            `;
+            document.getElementById('catalogueBody').appendChild(newRow);
+
+            // Save to localStorage for IT
+            let books = JSON.parse(localStorage.getItem('itCatalogueBooks')) || [];
+            books.push({ bookPreview, bookDetails, bookPrice });
+            saveBooksToStorage(books);
+
+            // Check if exceeding 5 books, remove the oldest one
+            if (books.length > 5) {
+                const rows = document.getElementById('catalogueBody').querySelectorAll('tr');
+                rows[0].remove();
+            }
+        }
+
+        // Function to delete a book
+        function deleteBook(button) {
+            const row = button.closest('tr');
+            const preview = row.querySelector('td:nth-child(1) img').src;
+            const details = row.querySelector('td:nth-child(2)').textContent.trim();
+            const price = row.querySelector('td:nth-child(3)').textContent.slice(1); // Remove '$' sign
+
+            // Remove from table
+            row.remove();
+
+            // Remove from localStorage for IT
+            let books = JSON.parse(localStorage.getItem('itCatalogueBooks')) || [];
+            books = books.filter(book => !(book.bookPreview === preview && book.bookDetails === details && book.bookPrice == price));
+            saveBooksToStorage(books);
+        }
+
+        // Function to save books to localStorage for IT
+        function saveBooksToStorage(books) {
+            localStorage.setItem('itCatalogueBooks', JSON.stringify(books));
+        }
+
+        // Function to load books from localStorage for IT
+        function loadBooksFromStorage() {
+            let books = JSON.parse(localStorage.getItem('itCatalogueBooks')) || [];
+
+            // Clear existing table rows
+            const catalogueBody = document.getElementById('catalogueBody');
+            catalogueBody.innerHTML = '';
+
+            // Add books to table
+            books.forEach(book => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td><img src="${book.bookPreview}" width="80" height="70"></td>
+                    <td>${book.bookDetails}</td>
+                    <td>$${book.bookPrice}</td>
+                    <td><button class="btn delete" onclick="deleteBook(this)">Delete</button></td>
+                `;
+                catalogueBody.appendChild(newRow);
+            });
+        }
+
+        // Initial load from localStorage for IT
+        document.addEventListener('DOMContentLoaded', function () {
+            loadBooksFromStorage();
+        });
+
+        // Form submission handling
+        document.getElementById('newBookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const bookPreview = document.getElementById('bookPreview').value;
+            const bookDetails = document.getElementById('bookDetails').value;
+            const bookPrice = document.getElementById('bookPrice').value;
+
+            // Check if the book already exists
+            const existingBooks = JSON.parse(localStorage.getItem('itCatalogueBooks')) || [];
+            const alreadyExists = existingBooks.some(book => book.bookPreview === bookPreview && book.bookDetails === bookDetails && book.bookPrice == bookPrice);
+            if (alreadyExists) {
+                alert('This book already exists in the catalogue.');
+                return;
+            }
+
+            addBook(bookPreview, bookDetails, bookPrice);
+            hideAddBookForm();
+            document.getElementById('newBookForm').reset();
+        });
+    </script>
+</body>
+</html>
